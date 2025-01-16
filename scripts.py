@@ -13,13 +13,17 @@ def find_student(student_name):
 
 
 
-def fix_marks(schoolkid):
+def fix_marks(student_name):
     """Исправление оценок"""
-    bad_points = Mark.objects.filter(schoolkid=schoolkid, points__lt=4)
+    student = find_student(student_name)
+    if student is None:
+        print(f'Ученик с именем "{student_name}" не найден. Исправление оценок невозможно.')
+        return
+    bad_points = Mark.objects.filter(schoolkid=student, points__lt=4)
     for bad_point in bad_points:
         bad_point.points = 5
         bad_point.save()
-    print(f'Оценки ученика {schoolkid.full_name} исправлены')
+    print(f'Оценки ученика {student.full_name} исправлены')
 
 
 def remove_chastisements(schoolkid):
