@@ -1,3 +1,12 @@
+import random
+from datacenter.models import Schoolkid
+from datacenter.models import Mark
+from datacenter.models import Chastisement
+from datacenter.models import Lesson
+from datacenter.models import Subject
+from datacenter.models import Commendation
+
+
 COMMENDATION = [
     'Молодец!', 
     'Отлично!', 
@@ -48,7 +57,6 @@ def create_commendation(schoolkid, date, year_of_study, group_letter):
         year_of_study=year_of_study, group_letter=group_letter, date=date)
     if not lessons:
         return f'Похоже {date} уроков нет. Попробуйте другую дату'
-    
     random_lesson = lessons.order_by('?').first()
     lesson_title = random_lesson.subject.title
     teachers = Lesson.objects.filter(
