@@ -1,18 +1,15 @@
-def find_student(schoolkids):
+def find_student(student_name):
     """Поиск ученика"""
-    try:
-        schoolkids = Schoolkid.objects.filter(full_name__contains=schoolkids)
-        if schoolkids.count() == 0:
-            print(f'Ученик с именем "{schoolkids}" не найден.')
-        elif schoolkids.count() == 1:
-            schoolkid = schoolkids.get()
-            print(f'Найден ученик с именем {schoolkid.full_name}')
-            return schoolkid
-        else:
-            print(f'''Найдено несколько учеников с именем "{schoolkids}". 
-                Пожалуйста, уточните запрос.''')
-    except ObjectDoesNotExist:
-        print(f'Ученик с именем "{schoolkids}" не найден.')
+    student = Schoolkid.objects.filter(full_name__contains=student_name)
+    if student.count() == 0:
+        print(f'Ученик с именем "{student_name}" не найден.')
+    elif student.count() == 1:
+        full_name = student.get()
+        print(f'Найден ученик с именем {student_name.full_name}')
+        return full_name
+    else:
+        print(f'''Найдено несколько учеников с именем "{student_name}". 
+            Пожалуйста, уточните запрос.''')
 
 
 
