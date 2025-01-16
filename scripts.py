@@ -33,14 +33,14 @@ def remove_chastisements(schoolkid):
     print(f'Замечания ученика {schoolkid} удалены')
 
 
-def create_commendation(schoolkid, date):
+def create_commendation(schoolkid, date, year_of_study, group_letter):
     """Добавление похвалы от учителей"""
     lessons = Lesson.objects.filter(
-        year_of_study=6, group_letter='А', date=date)
+        year_of_study=year_of_study, group_letter=group_letter, date=date)
     random_lesson = lessons.order_by('?').first()
     lesson_title = random_lesson.subject.title
     teachers = Lesson.objects.filter(
-        subject__title=lesson_title, year_of_study=6)
+        subject__title=lesson_title, year_of_study=year_of_study)
     teacher = teachers.first().teacher
     subject = Subject.objects.filter(title=lesson_title).first()
     commendation = ['Молодец!', 'Отлично!', 'Хорошо!',
