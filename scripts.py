@@ -8,11 +8,11 @@ from datacenter.models import Commendation
 
 
 COMMENDATION = [
-    'Молодец!', 
-    'Отлично!', 
+    'Молодец!',
+    'Отлично!',
     'Хорошо!',
-    'Великолепно!', 
-    'Прекрасно!', 
+    'Великолепно!',
+    'Прекрасно!',
     'Потрясающе!',
 ]
 
@@ -27,7 +27,7 @@ def find_student(student_name):
         print(f'Найден ученик с именем {name.full_name}')
         return name
     else:
-        print(f'''Найдено несколько учеников с именем "{student_name}". 
+        print(f'''Найдено несколько учеников с именем "{student_name}".
             Пожалуйста, уточните запрос.''')
 
 
@@ -35,7 +35,8 @@ def fix_marks(student_name):
     """Исправление оценок"""
     student = find_student(student_name)
     if student is None:
-        print(f'Ученик с именем "{student_name}" не найден. Исправление оценок невозможно.')
+        print(f'Ученик с именем "{
+              student_name}" не найден. Исправление оценок невозможно.')
         return
     bad_points = Mark.objects.filter(schoolkid=student, points__lt=4)
     for bad_point in bad_points:
@@ -58,18 +59,14 @@ def create_commendation(schoolkid, date, year_of_study, group_letter):
     if not lessons:
         return f'Похоже {date} уроков нет. Попробуйте другую дату'
     random_lesson = lessons.order_by('?').first()
-    lesson_title = random_lesson.subject.title
-    teachers = Lesson.objects.filter(
-        subject__title=lesson_title, year_of_study=year_of_study)
-    teacher = teachers.first().teacher
-    subject = Subject.objects.filter(title=lesson_title).first()
+    teacher = random_lesson.teacher
     random_commendation = random.choice(COMMENDATION)
     Commendation.objects.create(
         text=random_commendation,
         created=date,
         schoolkid=schoolkid,
-        subject=subject,
+        subject=random_lesson,
         teacher=teacher,
     )
-    print(f'''Похвала ({random_commendation}) для ученика {schoolkid} по предмету 
-          {lesson_title} добавлена. Учитель {teacher}. Дата {date}.''')
+    print(f'''Похвала "{random_commendation}" для ученика {schoolkid} по предмету
+          {random_lesson} добавлена. Учитель {teacher}. Дата {date}.''')
